@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Speedons 2026</title>
+<style>
+:root{--bg:#090c12;--s1:#161b22;--s2:#1c2230;--bd:#2d333b;--tx:#cdd9e5;--mu:#768390;--thu:#ff7043;--fri:#29b6f6;--sat:#ab47bc;--sun:#26a69a;--yt:#ff0000;--dj:#7c3aed;--ak:#ec4899;--djbg:rgba(124,58,237,.18);--akbg:rgba(236,72,153,.18)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font:14px/1.5 'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+.hdr{background:linear-gradient(135deg,#0e0a1e,#0a1a18);padding:1.6rem 1.5rem 1.2rem;text-align:center;border-bottom:1px solid var(--bd)}
+.hdr h1{font-size:1.9rem;font-weight:900;background:linear-gradient(100deg,var(--thu) 0%,var(--sat) 50%,var(--fri) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hdr p{font-size:.8rem;color:var(--mu);margin-top:.3rem}.hdr p b{color:var(--tx)}
+.pills{display:flex;justify-content:center;gap:.45rem;flex-wrap:wrap;margin-top:.7rem}
+.pill{font-size:.68rem;font-weight:700;padding:.18rem .7rem;border-radius:99px;border:1px solid currentColor}
+.p-thu{color:var(--thu);background:rgba(255,112,67,.07)}.p-fri{color:var(--fri);background:rgba(41,182,246,.07)}
+.p-sat{color:var(--sat);background:rgba(171,71,188,.07)}.p-sun{color:var(--sun);background:rgba(38,166,154,.07)}
+.tabs{display:flex;gap:.3rem;padding:.55rem .9rem;background:var(--s1);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:50;overflow-x:auto}
+.tab{flex-shrink:0;padding:.4rem .85rem;border-radius:6px;border:1px solid var(--bd);background:transparent;color:var(--mu);font:700 .73rem/1 inherit;cursor:pointer;transition:all .15s}
+.tab:hover{background:var(--s2);color:var(--tx)}
+.on-thu{background:var(--thu)!important;border-color:var(--thu)!important;color:#fff!important}
+.on-fri{background:var(--fri)!important;border-color:var(--fri)!important;color:#000!important}
+.on-sat{background:var(--sat)!important;border-color:var(--sat)!important;color:#fff!important}
+.on-sun{background:var(--sun)!important;border-color:var(--sun)!important;color:#fff!important}
+.wrap{max-width:900px;margin:0 auto;padding:.9rem .9rem 3rem}
+.panel{display:none}.panel.on{display:block}
+.day-info{font-size:.7rem;color:var(--mu);padding:0 .1rem .65rem}
+
+/* legend */
+.legend{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.75rem}
+.leg{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:var(--mu)}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.leg-dj{background:var(--dj)}.leg-ak{background:var(--ak)}
+.leg-both{background:linear-gradient(90deg,var(--dj) 50%,var(--ak) 50%)}
+
+/* row */
+.row{display:flex;align-items:center;gap:.5rem;padding:.45rem .7rem;border-left:3px solid transparent;border-bottom:1px solid rgba(255,255,255,.04);min-height:42px;transition:background .15s,box-shadow .15s;position:relative}
+.row:hover:not(.sp){filter:brightness(1.07)}
+.bl-thu{border-left-color:var(--thu)!important}.bl-fri{border-left-color:var(--fri)!important}
+.bl-sat{border-left-color:var(--sat)!important}.bl-sun{border-left-color:var(--sun)!important}
+.row.sp{opacity:.5}
+
+/* color states */
+.row.dj-only{background:var(--djbg)}
+.row.ak-only{background:var(--akbg)}
+.row.both{background:linear-gradient(90deg,var(--djbg) 50%,var(--akbg) 50%)}
+
+.r-t{font:700 .72rem/1 monospace;color:var(--mu);min-width:36px;flex-shrink:0}
+.r-g{flex:1;font:600 .85rem/1.25 inherit;min-width:0}
+.r-c{font-size:.64rem;color:#79c0ff;background:rgba(79,161,255,.08);border:1px solid rgba(79,161,255,.18);padding:.1rem .38rem;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;flex-shrink:0}
+.r-p{font-size:.67rem;color:var(--mu);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px;flex-shrink:0}
+
+/* YouTube btn */
+.ytbtn{display:inline-flex;align-items:center;gap:.28rem;flex-shrink:0;padding:.2rem .5rem;border-radius:5px;background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.22);color:var(--yt);font:700 .63rem/1 inherit;text-decoration:none;transition:all .15s;white-space:nowrap}
+.ytbtn:hover{background:rgba(255,0,0,.18);border-color:rgba(255,0,0,.5)}
+.ytbtn svg{width:9px;height:9px;fill:currentColor;flex-shrink:0}
+
+/* checkboxes */
+.checks{display:flex;gap:.35rem;flex-shrink:0;align-items:center}
+.chk-wrap{display:flex;flex-direction:column;align-items:center;gap:.15rem;cursor:pointer}
+.chk-wrap input[type=checkbox]{appearance:none;-webkit-appearance:none;width:15px;height:15px;border-radius:3px;border:1.5px solid var(--bd);background:transparent;cursor:pointer;transition:all .15s;flex-shrink:0}
+.chk-dj input[type=checkbox]:checked{background:var(--dj);border-color:var(--dj)}
+.chk-ak input[type=checkbox]:checked{background:var(--ak);border-color:var(--ak)}
+.chk-wrap input[type=checkbox]:hover{border-color:#666}
+.chk-label{font-size:.52rem;font-weight:700;line-height:1;white-space:nowrap}
+.chk-dj .chk-label{color:var(--dj)}
+.chk-ak .chk-label{color:var(--ak)}
+
+@media(max-width:580px){.r-c,.r-p{display:none}.r-g{font-size:.8rem}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <h1>🎮 SPEEDONS 2026</h1>
+  <p>Marathon de speedrun caritatif · <b>Médecins du Monde</b></p>
+  <div class="pills">
+    <span class="pill p-thu">Jeu. 7 Mai</span>
+    <span class="pill p-fri">Ven. 8 Mai</span>
+    <span class="pill p-sat">Sam. 9 Mai</span>
+    <span class="pill p-sun">Dim. 10 Mai</span>
+  </div>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="wrap" id="wrap"></div>
+<script>
+function yt(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' official trailer')}
+function ytv(id){return 'https://www.youtube.com/watch?v='+id}
+const YT_ICON=`<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>`;
+
+const DAYS=[
+{l:"🟠 Jeudi 7 Mai",k:"thu",runs:[
+  {t:"17:45",g:"Introduction",p:"mistermv · Médecins du Monde",sp:1},
+  {t:"18:00",g:"Control",c:"Any%",p:"Hooki",y:ytv("F74LLDhAhhI")},
+  {t:"19:04",g:"Kirby: Nightmare in Dreamland",c:"Any%",p:"H1style",y:yt("Kirby Nightmare in Dreamland GBA")},
+  {t:"19:56",g:"Kingdom Hearts: Birth by Sleep Final Mix HD",c:"Any% Aqua (Beginner)",p:"Shikikaiirib, Givralyriame",y:yt("Kingdom Hearts Birth by Sleep Final Mix")},
+  {t:"21:02",g:"Another Crab's Treasure",c:"Any% Restricted",p:"Paoz",y:ytv("aQd-EhmRQiM")},
+  {t:"21:47",g:"Mr. Nutz",c:"Any%",p:"Le Hulk",y:yt("Mr Nutz SNES game")},
+  {t:"22:24",g:"Alien: Isolation",c:"Any% CC Only",p:"Givr_",y:yt("Alien Isolation game")},
+  {t:"23:04",g:"Pico Park",c:"Multiplayer 8 Player",p:"Grink, Ostra, Tyanu Khah…",y:yt("Pico Park game")},
+  {t:"23:52",g:"Mario Kart World",c:"Showcase MKW",p:"Darkrapht",y:yt("Mario Kart World Nintendo Switch 2")},
+]},
+{l:"🔵 Vendredi 8 Mai",k:"fri",runs:[
+  {t:"00:42",g:"Sonic x Shadow Generations",c:"Any% Unrestricted",p:"Boul2petank",y:yt("Sonic x Shadow Generations")},
+  {t:"02:07",g:"Nine Sols",c:"Any% Restricted",p:"Giriko",y:ytv("evsOg5A2DtQ")},
+  {t:"03:47",g:"Halo 3 MCC",c:"Laso Coop (2 Joueurs)",p:"Nexos, Shadows",y:yt("Halo 3 Master Chief Collection")},
+  {t:"05:37",g:"Dragon Quest I HD-2D Remake",c:"Any% (Dragon Difficulty)",p:"Sylwer",y:yt("Dragon Quest I HD-2D Remake")},
+  {t:"07:44",g:"Ravenswatch",c:"Nightmare True Last Boss",p:"Elizyatv",y:yt("Ravenswatch game")},
+  {t:"08:39",g:"Awaria",c:"Difficulté Standard",p:"Legrandgrand, Noteau",y:yt("Awaria game indie")},
+  {t:"09:04",g:"The Messenger: Picnic Panic",c:"Picnic Panic DLC",p:"Space_Croquette",y:yt("The Messenger Picnic Panic DLC")},
+  {t:"09:34",g:"Crash Team Racing Nitro-Fueled",c:"Arcade All Story Tracks",p:"Havven",y:yt("Crash Team Racing Nitro-Fueled")},
+  {t:"10:19",g:"Ikaruga",c:"Scoring",p:"Jujukenobi",y:yt("Ikaruga game")},
+  {t:"10:46",g:"Zelda: Skyward Sword HD",c:"Any%",p:"Ronano",y:yt("Zelda Skyward Sword HD")},
+  {t:"12:16",g:"Skyblazer",c:"Any%",p:"Axodo",y:yt("Skyblazer SNES game")},
+  {t:"12:56",g:"Luigi's Mansion",c:"Any% no OOB",p:"Alphaxbox, Pierre",y:yt("Luigi's Mansion GameCube")},
+  {t:"14:11",g:"Freedom Planet",c:"Lilac%",p:"Ai-Dail",y:yt("Freedom Planet game")},
+  {t:"15:15",g:"The Rogue Prince of Persia",c:"Fresh File Story Journey",p:"Velcheran, 7eraser7",y:yt("The Rogue Prince of Persia game")},
+  {t:"16:37",g:"The Typing of the Dead",c:"Arcade%",p:"Hammerkick",y:yt("The Typing of the Dead game")},
+  {t:"17:12",g:"Crypt of the NecroDancer",c:"Aria (OHKO)",p:"Lusther",y:yt("Crypt of the NecroDancer game")},
+  {t:"17:42",g:"Dredge",c:"Any% NMG",p:"Megion",y:yt("Dredge game")},
+  {t:"18:37",g:"Splodey",c:"Any%",p:"Jerem",y:yt("Splodey game indie")},
+  {t:"19:08",g:"Metal Gear Rising: Revengeance",c:"Any% NG Hard",p:"Xogiga",y:yt("Metal Gear Rising Revengeance")},
+  {t:"20:43",g:"Shrek 2 (le jeu)",c:"Any% (Uncapped)",p:"Utsuru",y:yt("Shrek 2 game 2004")},
+  {t:"21:14",g:"Billy Hatcher and the Giant Egg",c:"Any%",p:"Torcnein",y:yt("Billy Hatcher and the Giant Egg")},
+  {t:"22:35",g:"Zelda: Tri Force Heroes",c:"Any% Multiplayers",p:"Léméry, Yoten, Tixo",y:yt("Zelda Tri Force Heroes")},
+  {t:"23:49",g:"Little Nightmares",c:"Any%",p:"Neivee",y:yt("Little Nightmares game")},
+]},
+{l:"🟣 Samedi 9 Mai",k:"sat",runs:[
+  {t:"00:39",g:"Astro Bot",c:"Any%",p:"Lenino",y:yt("Astro Bot PS5 2024")},
+  {t:"03:09",g:"Demon's Souls (2020)",c:"Any% Restricted",p:"Drbeber",y:yt("Demon's Souls 2020 remake PS5")},
+  {t:"04:09",g:"Rayman Legends",c:"Any%",p:"Niorra",y:yt("Rayman Legends game")},
+  {t:"05:52",g:"Star Wars Jedi Knight II: Jedi Outcast",c:"Any%",p:"Taosky",y:yt("Star Wars Jedi Knight II Jedi Outcast")},
+  {t:"06:42",g:"Metroid Fusion",c:"0%",p:"Destructor",y:yt("Metroid Fusion GBA")},
+  {t:"08:17",g:"Trine: Enchanted Edition",c:"Any% NG+",p:"Groshiken",y:yt("Trine Enchanted Edition game")},
+  {t:"08:44",g:"Minoria",c:"Any% (Saint Ending)",p:"Clo",y:yt("Minoria game")},
+  {t:"09:25",g:"Split Fiction",c:"Any%",p:"Hulien, Esteban143",y:yt("Split Fiction Hazelight game")},
+  {t:"12:52",g:"Minishoot' Adventures",c:"Any% (Restricted Explorer)",p:"Aleph_TV",y:yt("Minishoot Adventures game")},
+  {t:"13:41",g:"Sword of the Sea",c:"NG+ no major glitch",p:"Cookies",y:yt("Sword of the Sea game 2025")},
+  {t:"14:34",g:"Crypt Custodian",c:"Any% Easy",p:"Milleka",y:yt("Crypt Custodian game indie")},
+  {t:"15:24",g:"Spyro Reignited Trilogy",c:"Trifecta Any%",p:"Asukero",y:yt("Spyro Reignited Trilogy")},
+  {t:"17:14",g:"Quake",c:"Any% (Easy)",p:"Xeo",y:yt("Quake 1996 game remaster")},
+  {t:"17:36",g:"Deltarune",c:"Chapitre 4 Any%",p:"Vintagix",y:yt("Deltarune chapter 4")},
+  {t:"18:31",g:"Dance Dance Revolution Grand Prix",c:"Superplay Single Play",p:"Gyoo, Misty Griotte, Siyes",y:yt("Dance Dance Revolution Grand Prix")},
+  {t:"19:31",g:"Metal Gear Solid 3: Snake Eater",c:"European Extreme",p:"Ill Pazzo",y:yt("Metal Gear Solid 3 Snake Eater Delta")},
+  {t:"20:56",g:"F-Zero",c:"Grand Prix Fire Stingray",p:"Zhato",y:yt("F-Zero SNES game")},
+  {t:"21:46",g:"Sekiro: Shadows Die Twice",c:"Shura Glitchless",p:"Minarot",y:yt("Sekiro Shadows Die Twice")},
+  {t:"22:36",g:"Hollow Knight: Silksong",c:"Any% NMG",p:"Zoph",y:yt("Hollow Knight Silksong")},
+  {t:"23:52",g:"Resident Evil",c:"Jill/Chris Best Ending",p:"Dragvrallass",y:yt("Resident Evil 1 game remake")},
+]},
+{l:"🟢 Dimanche 10 Mai",k:"sun",runs:[
+  {t:"00:49",g:"The Elder Scrolls V: Skyrim",c:"Main Quest Any%",p:"Iluvan",y:yt("Skyrim game")},
+  {t:"01:34",g:"Clair Obscur: Expedition 33",c:"Any% Restricted",p:"Wharax",y:ytv("ejgW-upPMgk")},
+  {t:"03:16",g:"Castlevania: Portrait of Ruin",c:"Richter/Maria Mode",p:"Cneyo",y:yt("Castlevania Portrait of Ruin DS")},
+  {t:"03:52",g:"Pseudoregalia",c:"Any% No Out of Bounds",p:"Brother Main",y:yt("Pseudoregalia game")},
+  {t:"04:17",g:"Pitfall: La Grande Aventure",c:"Any%",p:"Saltysieg",y:yt("Pitfall The Lost Expedition game")},
+  {t:"04:52",g:"Armored Core VI: Fires of Rubicon",c:"Almost NG",p:"MOA",y:yt("Armored Core VI Fires of Rubicon")},
+  {t:"06:52",g:"Lego Star Wars: La Saga Skywalker",c:"Free Play",p:"Rapho",y:yt("LEGO Star Wars Skywalker Saga")},
+  {t:"08:12",g:"Shady Knight",c:"Any%",p:"Chevalmulticolore",y:yt("Shady Knight game indie")},
+  {t:"08:37",g:"ÖÖO",c:"Any%",p:"Tornoz",y:yt("OOO indie game")},
+  {t:"08:57",g:"Symphonia",c:"Any% NG",p:"Lobsteure",y:yt("Symphonia indie game 2024")},
+  {t:"09:54",g:"Paper Mario",c:"Any% (No Ace)",p:"Hachraam",y:yt("Paper Mario N64 game")},
+  {t:"11:54",g:"Bonelab",c:"No major glitch (NMG%)",p:"Jean-Pierrenator",y:yt("Bonelab VR game")},
+  {t:"12:54",g:"Portal 2 Co-op",c:"AMC (All Main Courses)",p:"Zadadaz, Savvydruid",y:yt("Portal 2 cooperative")},
+  {t:"13:39",g:"Iconoclasts",c:"No Airswim",p:"Jeewee",y:yt("Iconoclasts game indie")},
+  {t:"14:34",g:"Arcaea",c:"Showcase",p:"Asahaka",y:yt("Arcaea rhythm game")},
+  {t:"15:29",g:"Kena: Bridge of Spirits",c:"Any% No PMI/VH",p:"Bouzny",y:yt("Kena Bridge of Spirits")},
+  {t:"16:05",g:"Touhou 8: Imperishable Night",c:"1cc Lunatic",p:"Damesandwich",y:yt("Touhou 8 Imperishable Night game")},
+  {t:"16:45",g:"Octopath Traveler II",c:"Single Story Bidwar",p:"Hakumei",y:yt("Octopath Traveler 2")},
+  {t:"17:40",g:"Interview",p:"mistermv · Médecins du Monde",sp:1},
+  {t:"17:50",g:"Super Monkey Ball Banana Rumble",c:"World Tour",p:"Marco, Peio31",y:yt("Super Monkey Ball Banana Rumble")},
+  {t:"18:35",g:"PEAK",c:"Peak% NMG",p:"Nimelya",y:yt("PEAK climbing game Aggro Crab 2025")},
+  {t:"19:08",g:"Hades II",c:"All Region",p:"Kyussey",y:yt("Hades 2 game Supergiant")},
+  {t:"19:48",g:"Rain World: Downpour",c:"Rivulet: Story",p:"Nalalath",y:yt("Rain World Downpour expansion")},
+  {t:"20:35",g:"Super Mario Odyssey",c:"Any%",p:"Logis",y:yt("Super Mario Odyssey")},
+  {t:"21:56",g:"Silent Hill f",c:"New Game+",p:"Vicky_Spleen",y:yt("Silent Hill f game 2025")},
+  {t:"23:26",g:"Clôture du marathon",p:"mistermv",sp:1},
+]}
+];
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function updateRow(row){
+  const dj=row.querySelector('.cb-dj').checked;
+  const ak=row.querySelector('.cb-ak').checked;
+  row.classList.remove('dj-only','ak-only','both');
+  if(dj&&ak) row.classList.add('both');
+  else if(dj) row.classList.add('dj-only');
+  else if(ak) row.classList.add('ak-only');
+}
+
+async function saveCheck(key,val){
+  try{ await window.storage.set(key, val?'1':'0', true); }catch(e){}
+}
+
+async function loadAll(){
+  try{
+    const keys=await window.storage.list('chk:', true);
+    if(!keys||!keys.keys) return;
+    for(const k of keys.keys){
+      try{
+        const r=await window.storage.get(k, true);
+        if(!r||r.value!=='1') continue;
+        const cb=document.querySelector(`[data-skey="${k}"]`);
+        if(cb){ cb.checked=true; updateRow(cb.closest('.row')); }
+      }catch(e){}
+    }
+  }catch(e){}
+}
+
+// Poll for remote changes every 10s
+setInterval(async()=>{
+  try{
+    const keys=await window.storage.list('chk:', true);
+    if(!keys||!keys.keys) return;
+    for(const k of keys.keys){
+      try{
+        const r=await window.storage.get(k, true);
+        const cb=document.querySelector(`[data-skey="${k}"]`);
+        if(!cb) continue;
+        const val=r&&r.value==='1';
+        if(cb.checked!==val){ cb.checked=val; updateRow(cb.closest('.row')); }
+      }catch(e){}
+    }
+  }catch(e){}
+}, 10000);
+
+function switchDay(i){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.className='tab');
+  document.getElementById('p'+i).classList.add('on');
+  document.querySelectorAll('.tab')[i].classList.add('on-'+DAYS[i].k);
+}
+
+function build(){
+  const tabsEl=document.getElementById('tabs');
+  const wrapEl=document.getElementById('wrap');
+  DAYS.forEach((day,di)=>{
+    const tab=document.createElement('button');
+    tab.className='tab'+(di===0?' on-'+day.k:'');
+    tab.textContent=day.l;
+    tab.onclick=()=>switchDay(di);
+    tabsEl.appendChild(tab);
+
+    const panel=document.createElement('div');
+    panel.id='p'+di;
+    panel.className='panel'+(di===0?' on':'');
+    const nb=day.runs.filter(r=>!r.sp).length;
+
+    panel.innerHTML=`
+      <div class="day-info">${day.runs.length} entrées &nbsp;·&nbsp; ${nb} runs</div>
+      <div class="legend">
+        <span class="leg"><span class="leg-dot leg-dj"></span>DJesus</span>
+        <span class="leg"><span class="leg-dot leg-ak"></span>xAkito</span>
+        <span class="leg"><span class="leg-dot leg-both"></span>Les deux</span>
+      </div>`;
+
+    const list=document.createElement('div');
+    list.style.cssText='background:var(--s1);border:1px solid var(--bd);border-radius:8px;overflow:hidden';
+
+    day.runs.forEach((run,ri)=>{
+      const row=document.createElement('div');
+      row.className=`row bl-${day.k}${run.sp?' sp':''}`;
+
+      const ytBtn=run.y
+        ?`<a class="ytbtn" href="${esc(run.y)}" target="_blank" rel="noopener">${YT_ICON} Trailer</a>`
+        :'';
+
+      const keyDj=`chk:${di}-${ri}-dj`;
+      const keyAk=`chk:${di}-${ri}-ak`;
+      const checks=run.sp?'':`
+        <div class="checks">
+          <label class="chk-wrap chk-dj" title="DJesus">
+            <input type="checkbox" class="cb-dj" data-skey="${keyDj}">
+            <span class="chk-label">DJ</span>
+          </label>
+          <label class="chk-wrap chk-ak" title="xAkito">
+            <input type="checkbox" class="cb-ak" data-skey="${keyAk}">
+            <span class="chk-label">AK</span>
+          </label>
+        </div>`;
+
+      row.innerHTML=`
+        <span class="r-t">${esc(run.t)}</span>
+        <span class="r-g">${esc(run.g)}</span>
+        ${run.c?`<span class="r-c">${esc(run.c)}</span>`:''}
+        <span class="r-p">${esc(run.p)}</span>
+        ${ytBtn}
+        ${checks}`;
+
+      if(!run.sp){
+        const cbDj=row.querySelector('.cb-dj');
+        const cbAk=row.querySelector('.cb-ak');
+        cbDj.addEventListener('change',()=>{ updateRow(row); saveCheck(keyDj,cbDj.checked); });
+        cbAk.addEventListener('change',()=>{ updateRow(row); saveCheck(keyAk,cbAk.checked); });
+      }
+      list.appendChild(row);
+    });
+    panel.appendChild(list);
+    wrapEl.appendChild(panel);
+  });
+}
+build();
+loadAll();
+</script>
+</body>
+</html>
